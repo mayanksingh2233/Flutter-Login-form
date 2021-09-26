@@ -11,6 +11,17 @@ class myapp extends StatefulWidget {
 }
 
 class _myappState extends State<myapp> {
+  bool _isObscure = true;
+  var myvar;
+  var myvarpass;
+  var displaytext;
+  
+  void showtext(){
+    setState(() {
+      displaytext = myvar +" "+ myvarpass;
+    });
+
+  }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -25,6 +36,9 @@ class _myappState extends State<myapp> {
           children: [
             Padding(padding: EdgeInsets.all(20.0),
             child: TextField(
+              onChanged: (text){
+                myvar = text;
+              },
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.account_box_rounded),
                     labelText:"Username",
@@ -44,8 +58,20 @@ class _myappState extends State<myapp> {
                 ),
                   Padding(padding: EdgeInsets.all(20.0),
             child: TextField(
+              onChanged: (text){
+                myvarpass = text;
+              },
+              obscureText: _isObscure,
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.password_rounded),
+                    suffixIcon: IconButton(
+                    icon: Icon(
+                        _isObscure ? Icons.visibility : Icons.visibility_off),
+                    onPressed: () {
+                      setState(() {
+                        _isObscure = !_isObscure;
+                      });
+                    }),
                     labelText:"Password",
                     helperText: "Enter password ",
                     hintText: "password" ,  
@@ -60,7 +86,7 @@ class _myappState extends State<myapp> {
                   ),
                 )
                 ),
-                MaterialButton(onPressed: (){},
+                MaterialButton(onPressed: showtext,
                 child: Padding(padding: EdgeInsets.only(top:15.0,bottom: 15.0,left:25.0,right: 25.0),
                 child:Text("Login",
                 style: TextStyle(
@@ -78,11 +104,8 @@ class _myappState extends State<myapp> {
                   child:Text("Already have account?")),
                   Padding(padding: EdgeInsets.only(right: 10.0),
                   child: TextButton(onPressed: (){}, child: Text("Sign-up")))
-
-                  
-                  
-
-                ],)
+                ],),
+                Text("You Entered $displaytext")
                 
           ],
         ),
